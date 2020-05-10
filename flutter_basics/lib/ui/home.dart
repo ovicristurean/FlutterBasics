@@ -4,11 +4,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 class WidgetsHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
+    return MaterialApp(
+      home: Container(
         padding: EdgeInsets.only(top: 30.0, left: 10.0),
         alignment: Alignment.center,
-        color: Colors.deepOrangeAccent,
+        color: Colors.white70,
         child: Column(
           children: <Widget>[
             Row(
@@ -71,18 +71,18 @@ class WidgetsHome extends StatelessWidget {
               ],
               textDirection: TextDirection.ltr,
             ),
+            OrderButton()
           ],
         ),
         /*width: 192.0,
-        height: 96.0,
-       margin: EdgeInsets.only(left:50.0),*/
+          height: 96.0,
+         margin: EdgeInsets.only(left:50.0),*/
       ),
     );
   }
 }
 
 class PizzaImageWidget extends StatelessWidget {
-
   String assetName;
 
   PizzaImageWidget(String assetName) {
@@ -96,5 +96,37 @@ class PizzaImageWidget extends StatelessWidget {
       height: 40.0,
       child: SvgPicture.asset(assetName),
     );
+  }
+}
+
+class OrderButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 100.0,
+      height: 40.0,
+      child: RaisedButton(
+        child: Text(
+          "Order",
+          style: TextStyle(
+            color: Colors.white70,
+          ),
+        ),
+        onPressed: () {
+          order(context);
+        },
+        color: Colors.deepOrangeAccent,
+        elevation: 5.0,
+      ),
+      margin: EdgeInsets.only(top: 50.0),
+    );
+  }
+
+  void order(BuildContext context) {
+    var alert = AlertDialog(
+      title: Text("Order completed"),
+      content: Text("Thanks for your order"),
+    );
+    showDialog(context: context, builder: (BuildContext context) => alert);
   }
 }
