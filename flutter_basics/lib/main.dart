@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basics/screens/home.dart';
+import 'package:flutter_basics/ui/home.dart';
 
-void main() => runApp(HelloFlutterApp());
+void main() => runApp(WidgetsHome());
 
 class HelloFlutterApp extends StatelessWidget {
   @override
