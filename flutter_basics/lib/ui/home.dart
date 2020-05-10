@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class WidgetsHome extends StatelessWidget {
   @override
@@ -12,6 +13,7 @@ class WidgetsHome extends StatelessWidget {
           children: <Widget>[
             Row(
               children: <Widget>[
+                PizzaImageWidget('assets/pizza_margherita.svg'),
                 Expanded(
                   child: Text(
                     "Margherita",
@@ -35,12 +37,13 @@ class WidgetsHome extends StatelessWidget {
                       fontWeight: FontWeight.w300,
                     ),
                   ),
-                ),
+                )
               ],
               textDirection: TextDirection.ltr,
             ),
             Row(
               children: <Widget>[
+                PizzaImageWidget('assets/pizza_marinara.svg'),
                 Expanded(
                   child: Text(
                     "Marinara",
@@ -69,11 +72,29 @@ class WidgetsHome extends StatelessWidget {
               textDirection: TextDirection.ltr,
             ),
           ],
-        )
+        ),
         /*width: 192.0,
         height: 96.0,
        margin: EdgeInsets.only(left:50.0),*/
       ),
+    );
+  }
+}
+
+class PizzaImageWidget extends StatelessWidget {
+
+  String assetName;
+
+  PizzaImageWidget(String assetName) {
+    this.assetName = assetName;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 40.0,
+      height: 40.0,
+      child: SvgPicture.asset(assetName),
     );
   }
 }
