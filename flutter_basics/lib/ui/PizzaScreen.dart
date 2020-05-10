@@ -4,6 +4,20 @@ import 'package:flutter_svg/flutter_svg.dart';
 class PizzaScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    return MaterialApp(
+        home: Scaffold(
+      appBar: AppBar(
+        title: Text("Flutterfly"),
+        backgroundColor: Colors.deepOrangeAccent,
+      ),
+      body: PizzaScreenContent(),
+    ));
+  }
+}
+
+class PizzaScreenContent extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(top: 30.0, left: 10.0),
       alignment: Alignment.center,
