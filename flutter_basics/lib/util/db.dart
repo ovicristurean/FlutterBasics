@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter_basics/model/todo.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -36,5 +37,39 @@ class DbHelper {
     await database.execute(
         "CREATE TABLE $tblTodo($colId INTEGER PRIMARY KEY, $colTitle TEXT,"
         "$colDescription TEXT, $colPriority INTEGER, $date TEXT)");
+  }
+
+  Future<int> insertTodo(Todo todo) async {
+    Database db = await this.db;
+    var result = await db.insert(tblTodo, todo.toMap());
+    return result;
+  }
+
+  Future<List> getTodos() async {
+    Database db = await this.db;
+    var result =
+        await db.rawQuery("SELECT * FROM $tblTodo order by $colPriority");
+    return result;
+  }
+
+  Future<int> getNumberOfTodos() async {
+    Database db = await this.db;
+    var result = Sqflite.firstIntValue(
+        await db.rawQuery("SELECT COUNT(*) FROM $tblTodo"));
+    return result;
+  }
+
+  Future<int> updateTodo(Todo todo) async {
+    Database db = await this.db;
+    var result = await db.update(tblTodo, todo.toMap(),
+        where: "$colId = ?", whereArgs: [todo.id]);
+    return result;
+  }
+
+  Future<int> deleteTodo(int id) async {
+    int result;
+    Database db = await this.db;
+    result = await db.rawDelete("delete from $tblTodo where $colId = $id");
+    return result;
   }
 }

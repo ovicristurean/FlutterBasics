@@ -1,8 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_basics/model/todo.dart';
+import 'package:flutter_basics/util/db.dart';
 
 class HelloTextFieldScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    List<Todo> todos = List<Todo>();
+    DbHelper dbHelper = DbHelper();
+    dbHelper
+        .initializeDb()
+        .then((value) => dbHelper.getTodos().then((result) => todos = result));
+
+    DateTime today = DateTime.now();
+    Todo todo =
+        Todo("Buy apples", 1, today.toString(), "Make sure that they are good");
+    dbHelper.insertTodo(todo);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
