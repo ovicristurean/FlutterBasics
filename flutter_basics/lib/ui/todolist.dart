@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basics/model/todo.dart';
+import 'package:flutter_basics/ui/tododetail.dart';
 import 'package:flutter_basics/util/db.dart';
 
 class TodoApp extends StatefulWidget {
@@ -9,14 +10,40 @@ class TodoApp extends StatefulWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
+class TodoListState extends State {
   @override
-  State<StatefulWidget> createState() {
-    return TodoListState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: "Todos",
+      home: Material(
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text("Todos"),
+          ),
+          body: DetailsContent(),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              print("tapped on the fab");
+              //navigateToDetail(Todo("", 3, ""));
+            },
+            tooltip: "Add new todo",
+            child: Icon(Icons.add),
+          ),
+        ),
+      ),
+    );
   }
 }
 
-class TodoListState extends State {
+class DetailsContent extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return DetailsContentState();
+  }
+}
+
+class DetailsContentState extends State<DetailsContent> {
   DbHelper dbHelper = DbHelper();
   List<Todo> todos;
   int count = 0;
@@ -27,25 +54,7 @@ class TodoListState extends State {
       todos = List<Todo>();
       getData();
     }
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "Todos",
-      home: Material(
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text("Todos"),
-          ),
-          body: todoListItems(),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              print("tapped on the fab");
-            },
-            tooltip: "Add new todo",
-            child: Icon(Icons.add),
-          ),
-        ),
-      ),
-    );
+    return todoListItems();
   }
 
   ListView todoListItems() {
@@ -57,7 +66,7 @@ class TodoListState extends State {
             elevation: 2.0,
             child: ListTile(
               leading: CircleAvatar(
-                backgroundColor: Colors.red,
+                backgroundColor: getColor(this.todos[position].priority),
                 child: Text(this.todos[position].id.toString()),
               ),
               title: Text(this.todos[position].title),
@@ -65,6 +74,7 @@ class TodoListState extends State {
               onTap: () {
                 debugPrint(
                     "Tapped on the card" + this.todos[position].id.toString());
+                navigateToDetail(this.todos[position]);
               },
             ),
           );
@@ -88,5 +98,26 @@ class TodoListState extends State {
         });
       });
     });
+  }
+
+  Color getColor(int priority) {
+    switch (priority) {
+      case 1:
+        return Colors.red;
+        break;
+      case 2:
+        return Colors.orange;
+        break;
+      case 3:
+        return Colors.green;
+        break;
+      default:
+        return Colors.green;
+    }
+  }
+
+  void navigateToDetail(Todo todo) async {
+    bool result = await Navigator.push(
+        context, MaterialPageRoute(builder: (context) => TodoDetails(todo)));
   }
 }

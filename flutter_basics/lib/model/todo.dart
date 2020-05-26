@@ -18,6 +18,8 @@ class Todo {
 
   String get date => _date;
 
+  String get description => _description;
+
   set title(String newTitle) {
     if (newTitle.length <= 255) {
       _title = newTitle;
